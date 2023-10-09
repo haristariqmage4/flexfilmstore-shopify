@@ -182,8 +182,7 @@
                       {%- render 'product-description', id: id, product: product, is_tab: block.settings.is_tab , title:block.settings.title -%}
                     </div>
                   {%- when 'price' -%}
-                    <div class="product-block product-block--price" {{ block.shopify_attributes }}>
-                      {%- assign hide_sale_price = true -%}
+                    <div class="product-block product-block--price{% if customer.id == null %}  hide{% endif %}" {{ block.shopify_attributes }}>                      {%- assign hide_sale_price = true -%}
                       {%- if product.compare_at_price_max > product.price -%}
                         {%- if current_variant.compare_at_price > current_variant.price -%}
                           {%- assign hide_sale_price = false -%}
@@ -257,7 +256,12 @@
                       {%- endif -%}
                     </div>
               
-              
+                    <div class="msg hide">
+                      <p>
+                           We regret to inform you that we do not currently offer our Global products in your state; however, please contact us so that we can discuss alternative options, and we are pleased to inform you that we have a range of other Flexfilm products available, including our premium PPF FlexGuard.
+                       </p>
+                     </div>
+                     
                   {%- when 'variant_picker' -%}
                     
           

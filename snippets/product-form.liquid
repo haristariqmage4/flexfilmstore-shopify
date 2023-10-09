@@ -302,5 +302,15 @@
     $('#service-state ').on('change',function(){
       let state = $('#service-state :selected').val();
       Cookies.set("_service_state", state);
+      let selectedState = Cookies.get("_service_state");
+      if(selectedState == 'TX'){
+        $('.product-block--price').removeClass('hide');
+        $('.product-block--price').addClass('show');
+         $('.msg').addClass('hide');
+      } else{
+         $('.product-block--price').removeClass('show');
+        $('.product-block--price').addClass('hide');
+                 $('.msg').removeClass('hide');
+      }
     });  
   </script>
