@@ -1,0 +1,36 @@
+
+              {%- capture form_id -%}AddToCartForm-{{ section_id }}-{{ product.id }}{%- endcapture -%}
+              {%- for block in blocks -%}
+                {%- case block.type -%}
+                  
+                  {%- when 'sales_point' -%}
+                    {%- unless block.settings.text == blank -%}
+                      <div class="product-block product-block--sales-point" {{ block.shopify_attributes }}>
+                        <ul class="sales-points">
+                          <li class="sales-point">
+                            <span class="icon-and-text">
+                              {% case block.settings.icon %}
+                              {% when 'custom' %}{%- assign img_url = block.settings.custom_icon | img_url: '50'  -%}
+                <img class="lazyload" data-src="{{ img_url }}" data-sizes="auto"  alt="{{ block.settings.image.alt }}" style="max-width: 30px;    margin-right: 6px;">
+                                {% when 'checkmark' %} <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-circle-checkmark" viewBox="0 0 64 64"><defs><style>.cls-1{fill:none;stroke:#000;stroke-width:2px}</style></defs><path class="cls-1" d="M52.68 24.48A22 22 0 1 1 47 15.93M21 32l8.5 8.5L57 13"/></svg>
+                                {% when 'globe' %} <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-globe" viewBox="0 0 64 64"><defs><style>.cls-1{fill:none;stroke:#000;stroke-width:2px}</style></defs><circle class="cls-1" cx="33" cy="32" r="22"/><path class="cls-1" d="M14 21h38M11 32h44M14 43h38M33 10c-12 8-12 37 0 44M33 10c12 8 12 37 0 44"/></svg>
+                                {% when 'leaf' %} <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-leaf" viewBox="0 0 64 64"><defs><style>.cls-1{fill:none;stroke:#000;stroke-miterlimit:10;stroke-width:2px}</style></defs><path class="cls-1" d="M51 12L13 50M35 13v15h16"/><path class="cls-1" d="M52 11c6 24-16.72 47.29-33 32C7 22 29 10 52 11z"/></svg>
+                                {% when 'package' %} <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-package" viewBox="0 0 64 64"><defs><style>.cls-1{fill:none;stroke:#000;stroke-width:2px}</style></defs><path class="cls-1" d="M32 56L9.05 42.88V22.12L32 9l22.95 13.12v20.76L32 56z"/><path class="cls-1" d="M32 56V35.23l22.95-13.11M32 35.23L9.05 22.12M42.13 14.79L20.52 28.67v8.75"/></svg>
+                                {% when 'lock' %} <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-lock" viewBox="0 0 64 64"><defs><style>.cls-1{fill:none;stroke:#000;stroke-width:2px}</style></defs><path id="svg_2" data-name="svg 2" class="cls-1" d="M20.48 24v-3c0-6.6 5.52-11 11.76-11C39 10 44 15.13 44 21v3"/><path id="svg_4" data-name="svg 4" class="cls-1" d="M11.62 24h41.25v29.77H11.62z"/><path class="cls-1" d="M32.24 37v7"/><circle class="cls-1" cx="32.24" cy="35.5" r="1.5"/></svg>
+                                {% when 'truck' %} <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-truck" viewBox="0 0 64 64"><defs><style>.cls-1{fill:none;stroke:#000;stroke-miterlimit:10;stroke-width:2px}</style></defs><path class="cls-1" d="M17 47.72H7.38V21h33.14v26.72H24.44M45.92 47.72h-5.4V34.9h17.1v12.82h-4.23M57.62 34.9l-6.41-8.56H40.52"/><circle class="cls-1" cx="20.74" cy="48.26" r="3.74"/><path class="cls-1" d="M45.92 47.73a3.82 3.82 0 1 1 0 .37v-.37"/></svg>
+                              {% endcase %}
+                              <span>{{ block.settings.text }}</span>
+                            </span>
+                          </li>
+                        </ul>
+                      </div>
+{%- endunless -%}
+ {%- when 'inventory_status' -%}
+                    <div class="product-block product-block--sales-point" {{ block.shopify_attributes }}>
+                      {%- render 'product-inventory', product: product, current_variant: current_variant, block: block -%}
+                    </div>
+                 
+                {%- endcase -%}
+              
+              {%- endfor -%}
+          

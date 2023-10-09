@@ -1,0 +1,8 @@
+<script>(function($) {
+  $(document).on("page:load page:change", function() {
+    //if (Shopify.Checkout.step === "shipping_address") {
+      $("#checkout_shipping_address_company").attr("maxlength", 25);
+
+   // }
+  });
+})(Checkout.$);</script>

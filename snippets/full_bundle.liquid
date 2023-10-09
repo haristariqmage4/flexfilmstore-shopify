@@ -1,0 +1,44 @@
+{% if product.handle == "terraflex-full-bundle" or product.handle == "panaflex-full-bundle"  %}
+            
+<div class="product-block">
+<div class="variant-wrapper variant-wrapper--dropdown js " style=" ">
+  <label class="variant__label" >
+   Rear Side & Back Window Shade
+  </label>
+  <div class="variant-input-wrap1"  >
+    <select class="" id="" name="properties[Rear Side and Back Window Shade]">
+      <option value="5%" selected="selected"  class="variant-input" >5%</option>
+      <option value="15%"  class="variant-input" >15%</option>
+      <option value="20%"  class="variant-input" >20%</option>
+      <option value="35%"  class="variant-input" >35%</option>
+      <option value="40%" lass="variant-input" >40%</option>
+      <option value="50%"  class="variant-input" >50%</option>
+     {% if  product.handle == "panaflex-full-bundle"  %}
+     <option value="70%"  class="variant-input" >70%</option>
+      {%endif%}
+    </select>
+  </div>
+  </div></div>
+{% endif %}
+  {% if product.handle == 'nanoflex-full-kit'  %}
+<div class="product-block"><div class="variant-wrapper variant-wrapper--dropdown js " style="">
+  <label class="variant__label" >
+   Rear Side & Back Window Shade
+  </label>
+  <div class="variant-input-wrap1"  >
+    <select class="" id="" name="properties[Rear Side and Back Window Shade]">
+      <option value="5%" selected="selected"  class="variant-input" >5%</option>
+    
+      <option value="15%"  class="variant-input" >15%</option>
+      <option value="20%"  class="variant-input" >20%</option>
+     
+      <option value="35%"  class="variant-input" >35%</option>
+      <option value="50%"  class="variant-input" >50%</option>
+     
+     <option value="70%"  class="variant-input" >70%</option>
+     
+    </select>
+  </div>
+  </div></div>
+
+         {% endif %}

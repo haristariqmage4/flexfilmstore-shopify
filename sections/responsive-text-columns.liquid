@@ -1,0 +1,308 @@
+{%- if section.settings.divider -%}<div class="section--divider">{%- endif -%}
+{%- style -%}
+  .responsiveslider-{{ section.id }} .testimonials-slider {
+    background-color: {{ section.settings.color_background }};
+    color: {{ section.settings.color_text }};
+  }
+.responsiveslider-{{ section.id }} blockquote, .responsiveslider-{{ section.id }} .testimonials-slide {
+    margin: 0;
+    padding: 10px 10px 10px !important;
+}
+{%- endstyle -%}
+<div class="responsiveslider-{{ section.id }} testimonials-section">
+<div class="page-width">
+  {%- if section.settings.title != blank -%}
+    <div class="section-header text-{{ section.settings.align_text }}">
+      <h2>{{ section.settings.title }}</h2>
+    </div>
+  {%- endif -%}
+<div class="grid1{% unless section.blocks.size >= 5 %} grid--uniform{% endunless %} grid--flush-bottom medium-up--hide">
+    <div
+  class="testimonials-{{ section.id }}{% if section.settings.color_background == settings.color_body_bg %} {% endif %} text-{{ section.settings.align_text }}"
+  data-section-id="{{ section.id }}"
+  data-section-type="testimonials"
+  data-aos>
+  <div class="slideshow-wrapper">
+      <div
+        class="testimonials-slider"
+        id="Testimonials-{{ section.id }}"
+        data-dots="true"
+        data-count="{{ section.blocks.size }}">
+        {%- for block in section.blocks -%}
+          <div
+            class="testimonials-slide testimonials-slide--{{ block.id }}"
+            data-index="{{ forloop.index0 }}"
+            data-aos="row-of-{{ section.blocks.size }}"
+            {{ block.shopify_attributes }}>
+            <blockquote class="testimonials-slider__text1">
+            
+              
+           {%- if block.settings.enable_image -%}
+          <div style="{% if section.settings.align_text == 'center' %}margin: 0 auto;{% endif %} max-width: {{ block.settings.image_width }}px;">
+            {%- if block.settings.button_link != blank -%}
+              <a href="{{ block.settings.button_link }}">
+            {%- endif -%}
+            {%- if block.settings.image != blank -%}
+              <div class="image-wrap text-spacing" style="height: 0; padding-bottom: {{ 100 | divided_by: block.settings.image.aspect_ratio }}%;">
+                {%- assign img_url = block.settings.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+                <img class="lazyload"
+                    data-src="{{ img_url }}"
+                    data-widths="[180, 360, 540, 720, 900, 1080]"
+                    data-aspectratio="{{ block.settings.image.aspect_ratio }}"
+                    data-sizes="auto"
+                    alt="{{ block.settings.image.alt }}">
+              </div>
+            {%- else -%}
+              <div class="image-wrap text-spacing">{{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+            {%- endif -%}
+            {%- if block.settings.button_link != blank -%}
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+              
+				{%- if block.settings.title != blank -%}
+          <h3>{{ block.settings.title }}</h3>
+        {%- endif -%}
+        {%- if block.settings.text != blank -%}
+          <div class="rte-setting text-spacing">{{ block.settings.text }}</div>
+        {%- endif -%}
+        {%- if block.settings.button_label != blank -%}
+          <a href="{{ block.settings.button_link }}" class="btn btn--secondary btn--small">
+            {{ block.settings.button_label }}
+          </a>
+        {%- endif -%}
+              
+            </blockquote>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+  
+  </div>
+  <div class="responsiveslider-{{ section.id }} grid  grid--uniform  grid--flush-bottom medium-down--hide">
+   {%- liquid
+      assign grid_item_width = 'medium-up--one-third'
+      case section.settings.columns
+        when "3"
+          assign grid_item_width = 'medium-up--one-third'
+        
+        when "4"
+          assign grid_item_width = 'medium-up--one-quarter'
+          
+          when "5"
+          assign grid_item_width = 'medium-up--one-fifth'
+          
+      endcase
+    -%}
+    {%- for block in section.blocks -%}
+    {% comment %}
+      {%- if section.blocks.size == 6 and forloop.index == 6 -%}
+    <!--<div class="grid__item {{ column_width }} text-{{ section.settings.align_text }}" {{ block.shopify_attributes }} data-aos="row-of-3">
+    </div>
+    <div class="grid__item {{ column_width }} text-{{ section.settings.align_text }}" {{ block.shopify_attributes }} data-aos="row-of-3">
+    </div>-->
+        {%- assign column_width = 'medium-up--one-fifth' -%}
+     {%- elsif section.blocks.size == 7 and forloop.index == 6 -%}
+    <!--<div class="grid__item {{ column_width }} text-{{ section.settings.align_text }}" {{ block.shopify_attributes }} data-aos="row-of-3">
+    </div>
+    <div class="grid__item {{ column_width }} text-{{ section.settings.align_text }}" {{ block.shopify_attributes }} data-aos="row-of-3">
+    </div>-->
+        {%- assign column_width = 'medium-up--one-fifth' -%}
+      {%- else -%}
+        {%- assign column_width = grid_item_width -%}
+      {%- endif -%}
+    {% endcomment %}
+    {%- assign column_width = grid_item_width -%}
+      <div class="grid__item {{ column_width }} text-{{ section.settings.align_text }}" {{ block.shopify_attributes }} data-aos="row-of-{{section.settings.columns}}">
+        {%- if block.settings.enable_image -%}
+          <div style="{% if section.settings.align_text == 'center' %}margin: 0 auto;{% endif %} max-width: {{ block.settings.image_width }}px;">
+            {%- if block.settings.button_link != blank -%}
+              <a href="{{ block.settings.button_link }}">
+            {%- endif -%}
+            {%- if block.settings.image != blank -%}
+              <div class="image-wrap text-spacing" style="height: 0; padding-bottom: {{ 100 | divided_by: block.settings.image.aspect_ratio }}%;">
+                {%- assign img_url = block.settings.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+                <img class="lazyload"
+                    data-src="{{ img_url }}"
+                    data-widths="[180, 360, 540, 720, 900, 1080]"
+                    data-aspectratio="{{ block.settings.image.aspect_ratio }}"
+                    data-sizes="auto"
+                    alt="{{ block.settings.image.alt }}">
+              </div>
+            {%- else -%}
+              <div class="image-wrap text-spacing">{{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+            {%- endif -%}
+            {%- if block.settings.button_link != blank -%}
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+        {%- if block.settings.title != blank -%}
+          <h3>{{ block.settings.title }}</h3>
+        {%- endif -%}
+        {%- if block.settings.text != blank -%}
+          <div class="rte-setting text-spacing">{{ block.settings.text }}</div>
+        {%- endif -%}
+        {%- if block.settings.button_label != blank -%}
+          <a href="{{ block.settings.button_link }}" class="btn btn--secondary btn--small">
+            {{ block.settings.button_label }}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+</div>
+{%- if section.settings.divider -%}</div>{%- endif -%}
+
+{% schema %}
+  {
+    "name": "Responsive columns",
+    "class": "index-section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading"
+      },
+      {
+        "type": "select",
+        "id": "align_text",
+        "label": "Alignment",
+        "default": "center",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Centered"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ]
+      },
+{
+        "type": "select",
+        "id": "columns",
+        "label": "No of Columns in one row",
+        "default": "3",
+        "options": [
+          {
+            "value": "3",
+            "label": "3"
+          },
+          {
+            "value": "4",
+            "label": "4"
+          },
+          {
+            "value": "5",
+            "label": "5"
+          }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "divider",
+        "label": "Show section divider",
+        "default": false
+      },
+ {
+        "type": "color",
+        "id": "color_background",
+        "label": "Background",
+        "default": "#f9f9f9"
+      },
+
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Text",
+        "default": "#1c1d1d"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "text_block",
+        "name": "Column",
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "enable_image",
+            "label": "Show image",
+            "default": true
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "range",
+            "id": "image_width",
+            "label": "Image width",
+            "default": 650,
+            "min": 20,
+            "max": 650,
+            "step": 10,
+            "unit": "px"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Example title"
+          },
+          {
+            "type": "richtext",
+            "id": "text",
+            "label": "Text",
+            "default": "<p>Use this section to explain a set of product features, to link to a series of pages, or to answer common questions about your products. Add images for emphasis.</p>"
+          },
+          {
+            "type": "text",
+            "id": "button_label",
+            "label": "Button label",
+            "default": "Optional button"
+          },
+          {
+            "type": "url",
+            "id": "button_link",
+            "label": "Link"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Responsive columns",
+        "blocks": [
+          {
+            "type": "text_block"
+          },
+          {
+            "type": "text_block"
+          },
+          {
+            "type": "text_block"
+          }
+,
+          {
+            "type": "text_block"
+          }
+,
+          {
+            "type": "text_block"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

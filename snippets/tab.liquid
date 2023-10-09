@@ -1,0 +1,62 @@
+{%- liquid
+  assign output_tab = true
+  if title == blank and content == blank
+    assign output_tab = false
+  endif
+-%}
+{%- if output_tab -%}
+  <div class="collapsibles-wrapper collapsibles-wrapper--border-bottom">
+    <button type="button" class="label collapsible-trigger collapsible-trigger-btn collapsible-trigger-btn--borders collapsible--auto-height" aria-controls="Product-content-{{ id }}">
+      {{ title }}
+      {%- render 'collapsible-icons' -%}
+    </button>
+    <div id="Product-content-{{ id }}" class="collapsible-content collapsible-content--all">
+      <div class="collapsible-content__inner rte">
+        {{ content }}
+      
+      {%- if is_tab_image != blank -%}
+                    
+
+                    {%- assign img_url = image  -%}
+
+                    <img
+                      class="image-fit promo-grid__bg-image promo-grid__bg-image--{{ id }} lazyload"
+                      src="{{ image | img_url: '300x' }}"
+                      data-src="{{ img_url }}"
+                      data-aspectratio="{{ image.aspect_ratio }}"
+                      data-sizes="auto"
+                      alt="{{ image.alt | escape }}">
+                    <noscript>
+                      <img
+                        class="image-fit promo-grid__bg-image promo-grid__bg-image--{{id }} lazyloaded"
+                        src="{{ image | img_url: '1800x' }}"
+                        alt="{{ image.alt }}">
+                    </noscript>
+                  
+                  {%- endif -%}
+  {%- if is_tab_image2 != blank -%}
+                    
+
+                    {%- assign img_url2 = image2  -%}
+
+                    <img
+                      class="image-fit promo-grid__bg-image promo-grid__bg-image--{{ id }}2 lazyload"
+                      src="{{ image2 | img_url: '300x' }}"
+                      data-src="{{ img_url2 }}"
+                      data-aspectratio="{{ image2.aspect_ratio }}"
+                      data-sizes="auto"
+                      alt="{{ image2.alt | escape }}">
+                    <noscript>
+                      <img
+                        class="image-fit promo-grid__bg-image promo-grid__bg-image--{{id }}2 lazyloaded"
+                        src="{{ image2 | img_url: '1800x' }}"
+                        alt="{{ image2.alt }}">
+                    </noscript>
+                  
+                  {%- endif -%}
+      </div>
+      
+      
+    </div>
+  </div>
+{%- endif -%}

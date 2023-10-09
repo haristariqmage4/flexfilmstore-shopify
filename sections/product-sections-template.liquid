@@ -1,0 +1,77 @@
+{%- render 'page-template-blocks', section: section -%}
+
+{% schema %}
+  {
+    "name": "Product sections",
+    "blocks": [
+      
+     
+      
+      {
+        "type": "image-row",
+        "name": "Row of images",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image_1",
+            "label": "Image 1"
+          },
+          {
+            "type": "url",
+            "id": "image_1_link",
+            "label": "Link 1",
+            "info": "Optional"
+          },
+          {
+            "type": "image_picker",
+            "id": "image_2",
+            "label": "Image 2"
+          },
+          {
+            "type": "url",
+            "id": "image_2_link",
+            "label": "Link 2",
+            "info": "Optional"
+          },
+          {
+            "type": "image_picker",
+            "id": "image_3",
+            "label": "Image 3"
+          },
+          {
+            "type": "url",
+            "id": "image_3_link",
+            "label": "Link 3",
+            "info": "Optional"
+          },
+          {
+            "type": "image_picker",
+            "id": "image_4",
+            "label": "Image 4"
+          },
+          {
+            "type": "url",
+            "id": "image_4_link",
+            "label": "Link 4",
+            "info": "Optional"
+          },
+          {
+            "type": "checkbox",
+            "id": "enable_gutter",
+            "label": "Add spacing",
+            "default": false
+          },
+          {
+            "type": "checkbox",
+            "id": "enable_zoom",
+            "label": "Enable image zoom",
+            "info": "Not active if any image links set",
+            "default": true
+          }
+        ]
+      }
+        ]
+      
+
+  }
+{% endschema %}
