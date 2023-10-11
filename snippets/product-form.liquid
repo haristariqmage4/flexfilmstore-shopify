@@ -10,13 +10,13 @@
     <option value="GA">Georgia</option>
     <option value="HI">Hawaii</option>
     <option value="ID">Idaho</option>
-      <option value="LA">Louisiana</option>
+    <option value="LA">Louisiana</option>
     <option value="MS">Mississippi</option>
     <option value="NH">New Hampshire</option>
     <option value="NJ">New Jersey</option>
     <option value="NM">New Mexico</option>
     <option value="NY">New York</option>
-      <option value="OK">Oklahoma</option>
+    <option value="OK">Oklahoma</option>
     <option value="SD">South Dakota</option>
     <option value="SC">South Carolina</option>
     <option value="TN">Tennessee</option>
@@ -313,34 +313,35 @@
     {%- endif -%}
   {%- endform -%}
   
-    <script>
-      var stringTags = $('#global_product_states').val();
-      var globalStates = [];
-       globalStates.push(stringTags.split(','));
-      $('#service-state ').on('change',function(){
-        let state = $('#service-state :selected').val();
-        Cookies.set("_service_state", state);
-        
-        let selectedState = Cookies.get("_service_state");
-        if(globalStates[0].includes(selectedState)){
-          $('.product-block--price').removeClass('hide');
-          $('.product-block--price').addClass('show');
-          $('.msg').addClass('hide');      
-          $('.call-now').removeClass('show'); 
-          $('.call-now').addClass('hide');
-          $('#adcbtn').removeClass('global-product-deactive-cart');
-         $('#adcbtn').html('Add to cart');
-        } else{
-          $('.product-block--price').removeClass('show');
-          $('.product-block--price').addClass('hide');
-          $('.msg').removeClass('hide'); 
-          $('.call-now').removeClass('hide'); 
-          $('.call-now').addClass('show');
-          $('#adcbtn').addClass('global-product-deactive-cart');
-      $('#adcbtn').html('Select state to add to cart');
-        }
-      });  
-    </script>
+  <script>
+    var stringTags = $('#global_product_states').val();
+    var globalStates = [];
+     globalStates.push(stringTags.split(','));
+    $('#service-state ').on('change',function(){
+      let state = $('#service-state :selected').val();
+      Cookies.set("_service_state", state);
+      
+      let selectedState = Cookies.get("_service_state");
+      if(globalStates[0].includes(selectedState)){
+        $('.product-block--price').removeClass('hide');
+        $('.product-block--price').addClass('show');
+        $('.hidden_price_block').addClass('hide');
+        $('.hidden_price_block').removeClass('show');
+        $('.msg').addClass('hide'); 
+        $('#adcbtn').removeClass('global-product-deactive-cart');
+       $('#adcbtn').html('Add to cart');
+  
+      } else{
+        $('.product-block--price').removeClass('show');
+        $('.product-block--price').addClass('hide');
+         $('.hidden_price_block').addClass('show');
+        $('.hidden_price_block').removeClass('hide');
+        $('.msg').removeClass('hide');       
+        $('#adcbtn').addClass('global-product-deactive-cart');
+         $('#adcbtn').html('Select state to add to cart');
+      }
+    });  
+  </script>
     {% else %}
   {%- form 'product', product, id: form_id, class: 'product-single__form' -%}
   <div class="product-block" data-dynamic-variants-enabled {{ block.shopify_attributes }}>
