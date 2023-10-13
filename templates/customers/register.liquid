@@ -19,7 +19,33 @@
 
       <label for="CreatePassword">{{ 'customer.register.password' | t }}</label>
       <input type="password" name="customer[password]" id="CreatePassword" class="input-full{% if form.errors contains 'password' %} error{% endif %}">
-
+        <input type="hidden" id="customer_tag" value="" name="customer[tags]" />
+    <label class="service-state-label-signup" for="service-state-signup"></label>
+<select class="input-full" id="service-state-signup">
+  <option>Please select state</option>
+  <option value="AZ">Arizona</option>
+  <option value="AR">Arkansas</option>
+  <option value="CA">California</option>
+  <option value="CD">Colorado</option>
+  <option value="FL">Florida</option>
+  <option value="GA">Georgia</option>
+  <option value="HI">Hawaii</option>
+  <option value="ID">Idaho</option>
+  <option value="LA">Louisiana</option>
+  <option value="MS">Mississippi</option>
+  <option value="NH">New Hampshire</option>
+  <option value="NJ">New Jersey</option>
+  <option value="NM">New Mexico</option>
+  <option value="NY">New York</option>
+  <option value="OK">Oklahoma</option>
+  <option value="SD">South Dakota</option>
+  <option value="SC">South Carolina</option>
+  <option value="TN">Tennessee</option>
+  <option value="TX">Texas</option>
+  <option value="UT">Utah</option>
+  <option value="WV">West Virginia</option>
+  <option value="WY">Wyoming</option>
+</select>
       <p>
         <input type="submit" value="{{ 'customer.register.submit' | t }}" class="btn btn--full">
       </p>
@@ -27,3 +53,14 @@
     {%- endform -%}
   </div>
 </div>
+<script>
+  var globalStates = ['TX','GA','OK','LA'];
+  $('#create_customer').on('submit', function(){    
+    var selectedState = $('#service-state-signup').val();
+    if(globalStates.includes(selectedState)){
+      $('#customer_tag').val(selectedState + ' ,global-eligible');       
+    }else{
+      $('#customer_tag').val(selectedState + ' ,global-ineligible');      
+    }
+  });
+</script>
