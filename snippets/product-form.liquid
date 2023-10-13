@@ -1,275 +1,702 @@
-
-{%- form 'product', product, id: form_id, class: 'product-single__form' -%}
-<div class="product-block" data-dynamic-variants-enabled {{ block.shopify_attributes }}>
-                      {%- unless product.has_only_default_variant -%}
-                        {%- for option in product.options_with_values -%}
-                          {%- liquid
-                            if settings.enable_swatches
-                              assign is_color = false
-                              assign color_option_index = 0
-                              assign swatch_trigger = 'products.general.color_swatch_trigger' | t | downcase
-                              assign color_option_index = forloop.index0
-                              assign downcased_option = option.name | downcase
-                              if downcased_option contains swatch_trigger
-                                assign is_color = true
-                              elsif swatch_trigger == 'color' and downcased_option contains 'colour'
-                                assign is_color = true
-                              endif
-                            endif
-                          -%}
-
-                          {%- if settings.picker_type == 'button' -%}
-                            {%- render 'variant-button',
-                              product: product,
-                              form_id: form_id,
-                              section_id: section_id,
-                              option: option,
-                              forloop: forloop,
-                              variant_labels: settings.variant_labels,
-                              is_color: is_color,
-                              color_option_index: color_option_index
-                            -%}
-                          {%- else -%}
-                            {%- render 'variant-dropdown',
-                              product: product,
-                              form_id: form_id,
-                              section_id: section_id,
-                              option: option,
-                              forloop: forloop,
-                              variant_labels: settings.variant_labels
-                            -%}
-                          {%- endif -%}
-                        {%- endfor -%}
-                      {%- endunless -%}
-                    </div>
-<span id="vproduct" style="display:none;">{{ product.handle }}</span>
-      <span id="producthandleforc" style="display:none;">{{ product.handle }}</span>
-<div id="customcutc"></div>
- {% capture phandle %},{{ product.handle }},{% endcapture %}
- {% if product.handle == 'terraflex-back-window'or product.handle == 'terraflex-full-bundle' or product.handle == 'terraflex-windshield' or product.handle == 'terraflex-front-side-windows' or product.handle == 'terraflex-rear-side-windows'  %}
-           <div class="product-block">
-             <div class="variant-wrapper variant-wrapper--dropdown js " style="">
-  <label class="variant__label" >
-    Color
-  </label>
-  <div class="variant-input-wrap1"  >
-    <select class="" id="" name="properties[Color]">
-      <option value="Black" selected="selected"  class="variant-input" >
-          Black
-        </option>
-      <option value="Charcoal"  class="variant-input" >
-         Charcoal
-        </option></select>
-  </div>
-</div>
-</div>
-         {% endif %}
-
-
-  
-{% if settings.product_warranty contains phandle %}
-           <div class="product-block"> <div class="variant-wrapper variant-wrapper--dropdown js " style=" ">
-  <label class="variant__label" >
-    Include Warranty Cards?
-  </label>
-  <div class="variant-input-wrap1"  >
-    <select class="" id="" name="properties[Include Warranty Cards]">
-      <option value="No" selected="selected"  class="variant-input" >
-          No
-        </option>
-      <option value="Yes"  class="variant-input" >
-         Yes
-        </option></select>
-  </div>
-</div></div>
-         {% endif %}
-{% if settings.product_roll contains phandle %}
-            <div class="product-block"><div class="variant-wrapper variant-wrapper--dropdown js " style="">
-  <label class="variant__label" >
-    Roll Cut Size (e.g. 24”/36”) 
-  </label>
-  <div class="variant-input-wrap1"  >
-    <input type="text" name="properties[Roll Cut Size]"  placeholder="No Cut"/>
-    
-  </div>
-              </div></div>
-         {% endif %}
-{% render "full_bundle"%}
-{% if settings.product_cut contains phandle %}
- <div class="product-block">
-<div class="variant-wrapper variant-wrapper--dropdown js " style=" ">
-  <label class="variant__label" >
-    Year, Make, Model
-  </label>
-  <div class="variant-input-wrap1"  >
-    <input placeholder="Year" style="width: 31%;" class="form-field-input form-field-text"  name="properties[Year]" type="text" value="" autocorrect="off" autocapitalize="off" required>
-    <input placeholder="Make" style="width: 31%;" class="form-field-input form-field-text"  name="properties[Make]" type="text" value="" autocorrect="off" autocapitalize="off" required>
-     <input placeholder="Model" style="width: 31%;" class="form-field-input form-field-text"  name="properties[Model]" type="text" value="" autocorrect="off" autocapitalize="off" required>
-   
-  </div>
-   </div></div>
-<div class="product-block">
- <div class="form-options variant-wrapper" id="bodystyle">
-   <label class="variant__label">
-      <span class="option-name" id="bodystyletitle"></span>
-   </label>
-   <div class="form-options variant-wrapper " id="bodystyleoptions">
-    
-   </div>
-  </div></div>
-<div class="product-block">
-<div class="form-options variant-wrapper" id="bodystyleaddons">
-  </div></div>
-{% endif %}
-
-{% if product.handle == "flexcut-advanced-cutting-system" %}
- <div class="product-block">
-<div class="variant-wrapper variant-wrapper--dropdown js " style=" ">
-  <label class="variant__label" >
-    USB Key Number
-  </label>
-  <div class="variant-input-wrap1"  >
-    <input placeholder="USB Key Number" class="form-field-input form-field-text"  name="properties[USB Key Number]" type="text" value="" autocorrect="off" autocapitalize="off" required>
-   </div>
-  <div class="page-width page-width--narrow">
-  <div class="tooltip">
-    	<p><span> 
-          You can find your USB key number on your USB key or in your software. <a href ="{{'usb_key_location.jpg' | asset_url}}" target="_blank"> Click here</a> to view an example. 
-          </span></p>
-</div>
-  </div>
-   </div></div>
-
-{% endif %}
- {% if product.handle contains "panaflex-front-side-windows" or product.handle contains "panaflex-windshield" or product.handle contains "panaflex-full-bundle" or product.handle contains "panaflex-back-window" or product.handle contains "panaflex-rear-side-windows"  %}
- <div class="product-block">
-<div class="variant-wrapper variant-wrapper--dropdown js " style=" ">
-  <label class="variant__label" >
-    VIN Number
-  </label>
-  <div class="variant-input-wrap1"  >
-    <input placeholder="VIN Number" class="form-field-input form-field-text"  name="properties[VIN Number]" type="text" value="" autocorrect="off" autocapitalize="off" required>
-   </div>
- 
-   </div></div>
-
-{% endif %}
-{%- capture pcarthandle %}{{product.handle}},{% endcapture %}
-              		{%- if settings.p_sample_handle contains pcarthandle -%}
-              {% else %}
-{% if product.handle == "flexcut-advanced-cutting-system" or product.handle == "flexcut-starter-kit" %}
-              {% else %}
-                    <div class="product-block" {{ block.shopify_attributes }}>
-
-                      <div class="product__quantity" {% if template == "product.patterns_v3" %}style="display:none !important;"{% endif %}>
-                        {% assign qty_id = section_id | append: product.id %}
-                        <label for="Quantity-{{ qty_id }}">{{ 'products.product.quantity' | t }}</label>
-                        {%- render 'quantity-input', form_id: form_id, id: qty_id, qty: 1, min: 1 -%}
-                      </div>
-                    </div>
-              {% endif %}
- {% endif %}
-
-  {%- liquid
-    assign enable_dynamic_buttons = false
-    if show_dynamic_checkout and template != 'product.preorder'
-      assign enable_dynamic_buttons = true
-    endif
-  -%}
-<div id="infiniteoptions-container"></div>
-  {%- if enable_dynamic_buttons -%}
-    <div class="payment-buttons">
-  {%- endif -%}
-
-    {%- liquid
-      assign default_text = 'products.product.add_to_cart' | t
-      assign button_text = 'products.product.add_to_cart' | t
-      if template == 'product.preorder'
-        assign default_text = 'products.product.preorder' | t
-        assign button_text = 'products.product.preorder' | t
-      endif
-      unless current_variant.available
-        assign button_text = 'products.product.sold_out' | t
-      endunless
-    -%}
-<span id="maxtext" class="flexfilmsamplecartmax" style="display:none;"></span>
-       {% assign issample = 'no' %}
-      {% assign issamplevalue = 'no' %}
-      {% assign isSameSampleInCart = 'no' %}
-      {% assign cartSampleShadeValue = '' %}
-      
-     {% capture product_handle %}{{ variant.id }},{% endcapture %}	
-       {% capture pro_handle %}{{ product.handle }},{% endcapture %}	
-	 {% capture product_current_vriants %}{{ product_current_vriants }}{{ variant.id }},{% endcapture %}
-	 {% if settings.p_sample_handle contains pro_handle %} 
-      {% assign issample = "yes" %}
-        {% for item in cart.items %}
-          {% if item.product.handle == product.handle %}
-      		{% assign isSameSampleInCart = 'yes' %}
-          	{% for option in item.options_with_values %}
-                {% if option.name == "Shade" %}
-                	{% capture cartSampleShadeValue %}{{cartSampleShadeValue}}{{option.value}}{% endcapture %}
-                {% endif %}
-            {% endfor %}
-          {% endif %}
-        {% endfor %}
-
-	{% endif %}
-      {% assign cartSampleShadeValueCheck = 'no' %}
-      {% if product.handle == "panaflex™-sample-roll" %}{% assign cartSampleShadeValueCheck = 'yes' %}{% endif %}
-      <input type="hidden" name="isSample" value="{{ issample }}"/>
-      <input type="hidden" name="cartSampleShadeValue" value="{{ cartSampleShadeValue }}"/>
-      <input type="hidden" name="cartSampleShadeValueCheck" value="{{ cartSampleShadeValueCheck }}"/>
-      <input type="hidden" name="isSameSampleInCart" value="{{ isSameSampleInCart }}"/>
-      <select name="id" data-product-select class="product-single__variants no-js" id="variantselectbox" data-title="test">
-    {%- for variant in product.variants -%}
-      {%- if variant.available -%}
-        <option {% if variant == product.selected_or_first_available_variant %}
-          selected="selected"{% endif %} data-title="{% if issample == "yes" %}{{ variant.option2 }}{% endif %}"
-          value="{{ variant.id }}">
-          {{ variant.title }} - {{ variant.price | money_with_currency }}
-        </option>
-      {%- else -%}
-        <option disabled="disabled">
-          {{ variant.title }} - {{ 'products.product.sold_out' | t }}
-        </option>
-      {%- endif -%}
-    {%- endfor -%}
+{% if customer.id == null and product.tags contains 'global' %}
+  <label class="service-state-label" for="service-state">Please select state to check product eligibility and shipping options</label>
+  <select id="service-state">
+    <option>Please select state</option>
+    <option value="AZ">Arizona</option>
+    <option value="AR">Arkansas</option>
+    <option value="CA">California</option>
+    <option value="CD">Colorado</option>
+    <option value="FL">Florida</option>
+    <option value="GA">Georgia</option>
+    <option value="HI">Hawaii</option>
+    <option value="ID">Idaho</option>
+      <option value="LA">Louisiana</option>
+    <option value="MS">Mississippi</option>
+    <option value="NH">New Hampshire</option>
+    <option value="NJ">New Jersey</option>
+    <option value="NM">New Mexico</option>
+    <option value="NY">New York</option>
+      <option value="OK">Oklahoma</option>
+    <option value="SD">South Dakota</option>
+    <option value="SC">South Carolina</option>
+    <option value="TN">Tennessee</option>
+    <option value="TX">Texas</option>
+    <option value="UT">Utah</option>
+    <option value="WV">West Virginia</option>
+    <option value="WY">Wyoming</option>
   </select>
- 
-      {% render "produc-template-sales-points"  product: product, blocks: section.blocks,
-                            current_variant: current_variant %}
-    <button
-      {% if product.empty? %}type="button"{% else %}type="submit"{% endif %}
-      name="add" id="adcbtn"
-      data-add-to-cart
-      class="btn btn--full add-to-cart{% if enable_dynamic_buttons and product.selling_plan_groups == empty %} btn--secondary{% endif %}"
-      {% unless current_variant.available %} disabled="disabled"{% endunless %}>
-      <span data-add-to-cart-text data-default-text="{{ default_text }}">
-        {{ button_text }}
-      </span>
-    </button>
-
-    {%- if enable_dynamic_buttons -%}
-      {{ form | payment_button }}
-    {%- endif -%}
-
-  {%- if enable_dynamic_buttons -%}
+  
+  {% assign result = "" %}
+  {% for tag in product.tags %}
+   {% capture itemWithComma %}{{tag}}{% unless forloop.last %},{% endunless %}{% endcapture %}
+      {% assign result = result | append: itemWithComma %}
+  {% endfor %}
+  
+  <input id="global_product_states" type="hidden" value={{ result  }}>
+       <div class="msg hide">
+          <p> We regret to inform you that we do not currently offer our Global products in your state; however, please contact us so that we can discuss alternative options, and we are pleased to inform you that we have a range of other Flexfilm products available, including our premium PPF FlexGuard.</p>
+            <a href="tel:+1-256-748-8468" class="btn" >Call Now</a>
+             <a href="https://flexfilmstore.com/products/flexguard" target="_blank" class="btn" >Shop FlexGuard</a>
     </div>
-  {%- endif -%}
+  {%- form 'product', product, id: form_id, class: 'product-single__form' -%}
+  <div class="product-block" data-dynamic-variants-enabled {{ block.shopify_attributes }}>
+                        {%- unless product.has_only_default_variant -%}
+                          {%- for option in product.options_with_values -%}
+                            {%- liquid
+                              if settings.enable_swatches
+                                assign is_color = false
+                                assign color_option_index = 0
+                                assign swatch_trigger = 'products.general.color_swatch_trigger' | t | downcase
+                                assign color_option_index = forloop.index0
+                                assign downcased_option = option.name | downcase
+                                if downcased_option contains swatch_trigger
+                                  assign is_color = true
+                                elsif swatch_trigger == 'color' and downcased_option contains 'colour'
+                                  assign is_color = true
+                                endif
+                              endif
+                            -%}
   
-
-
-{% unless product.template_suffix == 'plotters' or 'flexcut-renewal'%}
-<div class="shopify-payment-terms product__policies">{{ form | payment_terms }}</div>
-{% endunless %}
+                            {%- if settings.picker_type == 'button' -%}
+                              {%- render 'variant-button',
+                                product: product,
+                                form_id: form_id,
+                                section_id: section_id,
+                                option: option,
+                                forloop: forloop,
+                                variant_labels: settings.variant_labels,
+                                is_color: is_color,
+                                color_option_index: color_option_index
+                              -%}
+                            {%- else -%}
+                              {%- render 'variant-dropdown',
+                                product: product,
+                                form_id: form_id,
+                                section_id: section_id,
+                                option: option,
+                                forloop: forloop,
+                                variant_labels: settings.variant_labels
+                              -%}
+                            {%- endif -%}
+                          {%- endfor -%}
+                        {%- endunless -%}
+                      </div>
+  <span id="vproduct" style="display:none;">{{ product.handle }}</span>
+        <span id="producthandleforc" style="display:none;">{{ product.handle }}</span>
+  <div id="customcutc"></div>
+   {% capture phandle %},{{ product.handle }},{% endcapture %}
+   {% if product.handle == 'terraflex-back-window'or product.handle == 'terraflex-full-bundle' or product.handle == 'terraflex-windshield' or product.handle == 'terraflex-front-side-windows' or product.handle == 'terraflex-rear-side-windows'  %}
+             <div class="product-block">
+               <div class="variant-wrapper variant-wrapper--dropdown js " style="">
+    <label class="variant__label" >
+      Color
+    </label>
+    <div class="variant-input-wrap1"  >
+      <select class="" id="" name="properties[Color]">
+        <option value="Black" selected="selected"  class="variant-input" >
+            Black
+          </option>
+        <option value="Charcoal"  class="variant-input" >
+           Charcoal
+          </option></select>
+    </div>
+  </div>
+  </div>
+           {% endif %}
   
-  <textarea data-variant-json class="hide" aria-hidden="true" aria-label="Product JSON">
-    {{ product.variants | json }}
-  </textarea>
-  {%- if product.options.size > 1 -%}
-    <textarea data-current-variant-json class="hide" aria-hidden="true" aria-label="Variant JSON">
-      {{ current_variant | json }}
+  
+    
+  {% if settings.product_warranty contains phandle %}
+             <div class="product-block"> <div class="variant-wrapper variant-wrapper--dropdown js " style=" ">
+    <label class="variant__label" >
+      Include Warranty Cards?
+    </label>
+    <div class="variant-input-wrap1"  >
+      <select class="" id="" name="properties[Include Warranty Cards]">
+        <option value="No" selected="selected"  class="variant-input" >
+            No
+          </option>
+        <option value="Yes"  class="variant-input" >
+           Yes
+          </option></select>
+    </div>
+  </div></div>
+           {% endif %}
+  {% if settings.product_roll contains phandle %}
+              <div class="product-block"><div class="variant-wrapper variant-wrapper--dropdown js " style="">
+    <label class="variant__label" >
+      Roll Cut Size (e.g. 24”/36”) 
+    </label>
+    <div class="variant-input-wrap1"  >
+      <input type="text" name="properties[Roll Cut Size]"  placeholder="No Cut"/>
+      
+    </div>
+                </div></div>
+           {% endif %}
+  {% render "full_bundle"%}
+  {% if settings.product_cut contains phandle %}
+   <div class="product-block">
+  <div class="variant-wrapper variant-wrapper--dropdown js " style=" ">
+    <label class="variant__label" >
+      Year, Make, Model
+    </label>
+    <div class="variant-input-wrap1"  >
+      <input placeholder="Year" style="width: 31%;" class="form-field-input form-field-text"  name="properties[Year]" type="text" value="" autocorrect="off" autocapitalize="off" required>
+      <input placeholder="Make" style="width: 31%;" class="form-field-input form-field-text"  name="properties[Make]" type="text" value="" autocorrect="off" autocapitalize="off" required>
+       <input placeholder="Model" style="width: 31%;" class="form-field-input form-field-text"  name="properties[Model]" type="text" value="" autocorrect="off" autocapitalize="off" required>
+     
+    </div>
+     </div></div>
+  <div class="product-block">
+   <div class="form-options variant-wrapper" id="bodystyle">
+     <label class="variant__label">
+        <span class="option-name" id="bodystyletitle"></span>
+     </label>
+     <div class="form-options variant-wrapper " id="bodystyleoptions">
+      
+     </div>
+    </div></div>
+  <div class="product-block">
+  <div class="form-options variant-wrapper" id="bodystyleaddons">
+    </div></div>
+  {% endif %}
+  
+  {% if product.handle == "flexcut-advanced-cutting-system" %}
+   <div class="product-block">
+  <div class="variant-wrapper variant-wrapper--dropdown js " style=" ">
+    <label class="variant__label" >
+      USB Key Number
+    </label>
+    <div class="variant-input-wrap1"  >
+      <input placeholder="USB Key Number" class="form-field-input form-field-text"  name="properties[USB Key Number]" type="text" value="" autocorrect="off" autocapitalize="off" required>
+     </div>
+    <div class="page-width page-width--narrow">
+    <div class="tooltip">
+        <p><span> 
+            You can find your USB key number on your USB key or in your software. <a href ="{{'usb_key_location.jpg' | asset_url}}" target="_blank"> Click here</a> to view an example. 
+            </span></p>
+  </div>
+    </div>
+     </div></div>
+  
+  {% endif %}
+   {% if product.handle contains "panaflex-front-side-windows" or product.handle contains "panaflex-windshield" or product.handle contains "panaflex-full-bundle" or product.handle contains "panaflex-back-window" or product.handle contains "panaflex-rear-side-windows"  %}
+   <div class="product-block">
+  <div class="variant-wrapper variant-wrapper--dropdown js " style=" ">
+    <label class="variant__label" >
+      VIN Number
+    </label>
+    <div class="variant-input-wrap1"  >
+      <input placeholder="VIN Number" class="form-field-input form-field-text"  name="properties[VIN Number]" type="text" value="" autocorrect="off" autocapitalize="off" required>
+     </div>
+   
+     </div></div>
+  
+  {% endif %}
+  {%- capture pcarthandle %}{{product.handle}},{% endcapture %}
+                    {%- if settings.p_sample_handle contains pcarthandle -%}
+                {% else %}
+  {% if product.handle == "flexcut-advanced-cutting-system" or product.handle == "flexcut-starter-kit" %}
+                {% else %}
+                      <div class="product-block" {{ block.shopify_attributes }}>
+  
+                        <div class="product__quantity" {% if template == "product.patterns_v3" %}style="display:none !important;"{% endif %}>
+                          {% assign qty_id = section_id | append: product.id %}
+                          <label for="Quantity-{{ qty_id }}">{{ 'products.product.quantity' | t }}</label>
+                          {%- render 'quantity-input', form_id: form_id, id: qty_id, qty: 1, min: 1 -%}
+                        </div>
+                      </div>
+                {% endif %}
+   {% endif %}
+  
+    {%- liquid
+      assign enable_dynamic_buttons = false
+      if show_dynamic_checkout and template != 'product.preorder'
+        assign enable_dynamic_buttons = true
+      endif
+    -%}
+  <div id="infiniteoptions-container"></div>
+    {%- if enable_dynamic_buttons -%}
+      <div class="payment-buttons">
+    {%- endif -%}
+  
+      {%- liquid
+        assign default_text = 'products.product.add_to_cart' | t
+        assign button_text = 'products.product.add_to_cart' | t
+         assign global_product_button_text = 'Select state to add to cart'
+        if template == 'product.preorder'
+          assign default_text = 'products.product.preorder' | t
+          assign button_text = 'products.product.preorder' | t
+        endif
+        unless current_variant.available
+          assign button_text = 'products.product.sold_out' | t
+        endunless
+      -%}
+  <span id="maxtext" class="flexfilmsamplecartmax" style="display:none;"></span>
+         {% assign issample = 'no' %}
+        {% assign issamplevalue = 'no' %}
+        {% assign isSameSampleInCart = 'no' %}
+        {% assign cartSampleShadeValue = '' %}
+        
+       {% capture product_handle %}{{ variant.id }},{% endcapture %}	
+         {% capture pro_handle %}{{ product.handle }},{% endcapture %}	
+     {% capture product_current_vriants %}{{ product_current_vriants }}{{ variant.id }},{% endcapture %}
+     {% if settings.p_sample_handle contains pro_handle %} 
+        {% assign issample = "yes" %}
+          {% for item in cart.items %}
+            {% if item.product.handle == product.handle %}
+            {% assign isSameSampleInCart = 'yes' %}
+              {% for option in item.options_with_values %}
+                  {% if option.name == "Shade" %}
+                    {% capture cartSampleShadeValue %}{{cartSampleShadeValue}}{{option.value}}{% endcapture %}
+                  {% endif %}
+              {% endfor %}
+            {% endif %}
+          {% endfor %}
+  
+    {% endif %}
+        {% assign cartSampleShadeValueCheck = 'no' %}
+        {% if product.handle == "panaflex™-sample-roll" %}{% assign cartSampleShadeValueCheck = 'yes' %}{% endif %}
+        <input type="hidden" name="isSample" value="{{ issample }}"/>
+        <input type="hidden" name="cartSampleShadeValue" value="{{ cartSampleShadeValue }}"/>
+        <input type="hidden" name="cartSampleShadeValueCheck" value="{{ cartSampleShadeValueCheck }}"/>
+        <input type="hidden" name="isSameSampleInCart" value="{{ isSameSampleInCart }}"/>
+        <select name="id" data-product-select class="product-single__variants no-js" id="variantselectbox" data-title="test">
+      {%- for variant in product.variants -%}
+        {%- if variant.available -%}
+          <option {% if variant == product.selected_or_first_available_variant %}
+            selected="selected"{% endif %} data-title="{% if issample == "yes" %}{{ variant.option2 }}{% endif %}"
+            value="{{ variant.id }}">
+            {{ variant.title }} - {{ variant.price | money_with_currency }}
+          </option>
+        {%- else -%}
+          <option disabled="disabled">
+            {{ variant.title }} - {{ 'products.product.sold_out' | t }}
+          </option>
+        {%- endif -%}
+      {%- endfor -%}
+    </select>
+   
+        {% render "produc-template-sales-points"  product: product, blocks: section.blocks,
+                              current_variant: current_variant %}
+      <button
+        {% if product.empty? %}type="button"{% else %}type="submit"{% endif %}
+        name="add" id="adcbtn"
+        data-add-to-cart
+        class="global-product-deactive-cart btn btn--full add-to-cart{% if enable_dynamic_buttons and product.selling_plan_groups == empty %} btn--secondary{% endif %}"
+        {% unless current_variant.available %} disabled="disabled"{% endunless %}>
+        <span data-add-to-cart-text data-default-text="{{ default_text }}">
+          {{ global_product_button_text }}
+        </span>
+      </button>
+  
+      {%- if enable_dynamic_buttons -%}
+        {{ form | payment_button }}
+      {%- endif -%}
+  
+    {%- if enable_dynamic_buttons -%}
+      </div>
+    {%- endif -%}
+    
+  
+  
+  {% unless product.template_suffix == 'plotters' or 'flexcut-renewal'%}
+  <div class="shopify-payment-terms product__policies">{{ form | payment_terms }}</div>
+  {% endunless %}
+    
+    <textarea data-variant-json class="hide" aria-hidden="true" aria-label="Product JSON">
+      {{ product.variants | json }}
     </textarea>
-  {%- endif -%}
-{%- endform -%}
+    {%- if product.options.size > 1 -%}
+      <textarea data-current-variant-json class="hide" aria-hidden="true" aria-label="Variant JSON">
+        {{ current_variant | json }}
+      </textarea>
+    {%- endif -%}
+  {%- endform -%}
+  
+    <script>
+    var now = new Date();
+    var expires = new Date(now.getTime() + 1 * 60 * 60 * 1000); // 2 hours in milliseconds
+  
+  
+      var stringTags = $('#global_product_states').val();
+      var globalStates = [];
+       globalStates.push(stringTags.split(','));
+      $('#service-state ').on('change',function(){
+        let state = $('#service-state :selected').val();
+        //Cookies.set("_service_state", state);
+        document.cookie = "_service_state="+state+";expires=" + expires;
+        let selectedState = Cookies.get("_service_state");
+        if(globalStates[0].includes(selectedState)){
+          $('.product-block--price').removeClass('hide');
+          $('.product-block--price').addClass('show');
+          $('.hidden_price_block').addClass('hide');
+          $('.hidden_price_block').removeClass('show');
+          $('.msg').addClass('hide');      
+          $('.call-now').removeClass('show'); 
+          $('.call-now').addClass('hide');
+          $('#adcbtn').removeClass('global-product-deactive-cart');
+         $('#adcbtn').html('Add to cart');
+    
+        } else{
+          $('.product-block--price').removeClass('show');
+          $('.product-block--price').addClass('hide');
+          $('.hidden_price_block').addClass('show');
+          $('.hidden_price_block').removeClass('hide');
+          $('.msg').removeClass('hide'); 
+          $('.call-now').removeClass('hide'); 
+          $('.call-now').addClass('show');
+          $('#adcbtn').addClass('global-product-deactive-cart');
+          $('#adcbtn').html('Select state to add to cart');
+        }
+      
+      });  
+      // Get all cookies as a string
+  var allCookies = document.cookie;
+  
+  // Split the string into an array of individual cookies
+  var cookiesArray = allCookies.split(";");
+  
+  // Define the name of the cookie you want to retrieve
+  var targetCookieName = "_service_state";
+  
+  // Initialize a variable to store the value of the target cookie
+  var targetCookieValue = null;
+  
+  // Loop through the cookies to find the one with the target name
+  for (var i = 0; i < cookiesArray.length; i++) {
+    var cookie = cookiesArray[i].trim(); // Remove any leading/trailing spaces
+  
+    // Check if the cookie starts with the target name
+    if (cookie.indexOf(targetCookieName + "=") === 0) {
+      // Extract the value of the target cookie
+      targetCookieValue = cookie.substring(targetCookieName.length + 1);
+      break;
+    }
+  }
+  
+  // Now, targetCookieValue holds the value of the specified cookie
+    console.log(targetCookieValue);
+  if(targetCookieValue !== null){
+    if (globalStates[0].includes(targetCookieValue)) {
+      $('#service-state').val(targetCookieValue);
+     $('#service-state').attr('disabled', true);
+    $('.product-block--price').removeClass('hide');
+          $('.product-block--price').addClass('show');
+          $('.hidden_price_block').addClass('hide');
+          $('.hidden_price_block').removeClass('show');
+          $('.msg').addClass('hide');      
+          $('.call-now').removeClass('show'); 
+          $('.call-now').addClass('hide');
+          $('#adcbtn').removeClass('global-product-deactive-cart');
+         $('#adcbtn').html('Add to cart');
+  } else {
+          $('#service-state').val(targetCookieValue);
+     $('#service-state').attr('disabled', true);
+          $('.product-block--price').removeClass('show');
+          $('.product-block--price').addClass('hide');
+          $('.hidden_price_block').addClass('show');
+          $('.hidden_price_block').removeClass('hide');
+          $('.msg').removeClass('hide'); 
+          $('.call-now').removeClass('hide'); 
+          $('.call-now').addClass('show');
+          $('#adcbtn').addClass('global-product-deactive-cart');
+          $('#adcbtn').html('Select state to add to cart');
+  }
+  }
+  
+  
+  
+    </script>
+    {% else %}
+  {%- form 'product', product, id: form_id, class: 'product-single__form' -%}
+  <div class="product-block" data-dynamic-variants-enabled {{ block.shopify_attributes }}>
+                        {%- unless product.has_only_default_variant -%}
+                          {%- for option in product.options_with_values -%}
+                            {%- liquid
+                              if settings.enable_swatches
+                                assign is_color = false
+                                assign color_option_index = 0
+                                assign swatch_trigger = 'products.general.color_swatch_trigger' | t | downcase
+                                assign color_option_index = forloop.index0
+                                assign downcased_option = option.name | downcase
+                                if downcased_option contains swatch_trigger
+                                  assign is_color = true
+                                elsif swatch_trigger == 'color' and downcased_option contains 'colour'
+                                  assign is_color = true
+                                endif
+                              endif
+                            -%}
+  
+                            {%- if settings.picker_type == 'button' -%}
+                              {%- render 'variant-button',
+                                product: product,
+                                form_id: form_id,
+                                section_id: section_id,
+                                option: option,
+                                forloop: forloop,
+                                variant_labels: settings.variant_labels,
+                                is_color: is_color,
+                                color_option_index: color_option_index
+                              -%}
+                            {%- else -%}
+                              {%- render 'variant-dropdown',
+                                product: product,
+                                form_id: form_id,
+                                section_id: section_id,
+                                option: option,
+                                forloop: forloop,
+                                variant_labels: settings.variant_labels
+                              -%}
+                            {%- endif -%}
+                          {%- endfor -%}
+                        {%- endunless -%}
+                      </div>
+  <span id="vproduct" style="display:none;">{{ product.handle }}</span>
+        <span id="producthandleforc" style="display:none;">{{ product.handle }}</span>
+  <div id="customcutc"></div>
+   {% capture phandle %},{{ product.handle }},{% endcapture %}
+   {% if product.handle == 'terraflex-back-window'or product.handle == 'terraflex-full-bundle' or product.handle == 'terraflex-windshield' or product.handle == 'terraflex-front-side-windows' or product.handle == 'terraflex-rear-side-windows'  %}
+             <div class="product-block">
+               <div class="variant-wrapper variant-wrapper--dropdown js " style="">
+    <label class="variant__label" >
+      Color
+    </label>
+    <div class="variant-input-wrap1"  >
+      <select class="" id="" name="properties[Color]">
+        <option value="Black" selected="selected"  class="variant-input" >
+            Black
+          </option>
+        <option value="Charcoal"  class="variant-input" >
+           Charcoal
+          </option></select>
+    </div>
+  </div>
+  </div>
+           {% endif %}
+  
+  
+    
+  {% if settings.product_warranty contains phandle %}
+             <div class="product-block"> <div class="variant-wrapper variant-wrapper--dropdown js " style=" ">
+    <label class="variant__label" >
+      Include Warranty Cards?
+    </label>
+    <div class="variant-input-wrap1"  >
+      <select class="" id="" name="properties[Include Warranty Cards]">
+        <option value="No" selected="selected"  class="variant-input" >
+            No
+          </option>
+        <option value="Yes"  class="variant-input" >
+           Yes
+          </option></select>
+    </div>
+  </div></div>
+           {% endif %}
+  {% if settings.product_roll contains phandle %}
+              <div class="product-block"><div class="variant-wrapper variant-wrapper--dropdown js " style="">
+    <label class="variant__label" >
+      Roll Cut Size (e.g. 24”/36”) 
+    </label>
+    <div class="variant-input-wrap1"  >
+      <input type="text" name="properties[Roll Cut Size]"  placeholder="No Cut"/>
+      
+    </div>
+                </div></div>
+           {% endif %}
+  {% render "full_bundle"%}
+  {% if settings.product_cut contains phandle %}
+   <div class="product-block">
+  <div class="variant-wrapper variant-wrapper--dropdown js " style=" ">
+    <label class="variant__label" >
+      Year, Make, Model
+    </label>
+    <div class="variant-input-wrap1"  >
+      <input placeholder="Year" style="width: 31%;" class="form-field-input form-field-text"  name="properties[Year]" type="text" value="" autocorrect="off" autocapitalize="off" required>
+      <input placeholder="Make" style="width: 31%;" class="form-field-input form-field-text"  name="properties[Make]" type="text" value="" autocorrect="off" autocapitalize="off" required>
+       <input placeholder="Model" style="width: 31%;" class="form-field-input form-field-text"  name="properties[Model]" type="text" value="" autocorrect="off" autocapitalize="off" required>
+     
+    </div>
+     </div></div>
+  <div class="product-block">
+   <div class="form-options variant-wrapper" id="bodystyle">
+     <label class="variant__label">
+        <span class="option-name" id="bodystyletitle"></span>
+     </label>
+     <div class="form-options variant-wrapper " id="bodystyleoptions">
+      
+     </div>
+    </div></div>
+  <div class="product-block">
+  <div class="form-options variant-wrapper" id="bodystyleaddons">
+    </div></div>
+  {% endif %}
+  
+  {% if product.handle == "flexcut-advanced-cutting-system" %}
+   <div class="product-block">
+  <div class="variant-wrapper variant-wrapper--dropdown js " style=" ">
+    <label class="variant__label" >
+      USB Key Number
+    </label>
+    <div class="variant-input-wrap1"  >
+      <input placeholder="USB Key Number" class="form-field-input form-field-text"  name="properties[USB Key Number]" type="text" value="" autocorrect="off" autocapitalize="off" required>
+     </div>
+    <div class="page-width page-width--narrow">
+    <div class="tooltip">
+        <p><span> 
+            You can find your USB key number on your USB key or in your software. <a href ="{{'usb_key_location.jpg' | asset_url}}" target="_blank"> Click here</a> to view an example. 
+            </span></p>
+  </div>
+    </div>
+     </div></div>
+  
+  {% endif %}
+   {% if product.handle contains "panaflex-front-side-windows" or product.handle contains "panaflex-windshield" or product.handle contains "panaflex-full-bundle" or product.handle contains "panaflex-back-window" or product.handle contains "panaflex-rear-side-windows"  %}
+   <div class="product-block">
+  <div class="variant-wrapper variant-wrapper--dropdown js " style=" ">
+    <label class="variant__label" >
+      VIN Number
+    </label>
+    <div class="variant-input-wrap1"  >
+      <input placeholder="VIN Number" class="form-field-input form-field-text"  name="properties[VIN Number]" type="text" value="" autocorrect="off" autocapitalize="off" required>
+     </div>
+   
+     </div></div>
+  
+  {% endif %}
+  {%- capture pcarthandle %}{{product.handle}},{% endcapture %}
+                    {%- if settings.p_sample_handle contains pcarthandle -%}
+                {% else %}
+  {% if product.handle == "flexcut-advanced-cutting-system" or product.handle == "flexcut-starter-kit" %}
+                {% else %}
+                      <div class="product-block" {{ block.shopify_attributes }}>
+  
+                        <div class="product__quantity" {% if template == "product.patterns_v3" %}style="display:none !important;"{% endif %}>
+                          {% assign qty_id = section_id | append: product.id %}
+                          <label for="Quantity-{{ qty_id }}">{{ 'products.product.quantity' | t }}</label>
+                          {%- render 'quantity-input', form_id: form_id, id: qty_id, qty: 1, min: 1 -%}
+                        </div>
+                      </div>
+                {% endif %}
+   {% endif %}
+  
+    {%- liquid
+      assign enable_dynamic_buttons = false
+      if show_dynamic_checkout and template != 'product.preorder'
+        assign enable_dynamic_buttons = true
+      endif
+    -%}
+  <div id="infiniteoptions-container"></div>
+    {%- if enable_dynamic_buttons -%}
+      <div class="payment-buttons">
+    {%- endif -%}
+  
+      {%- liquid
+        assign default_text = 'products.product.add_to_cart' | t
+        assign button_text = 'products.product.add_to_cart' | t
+        if template == 'product.preorder'
+          assign default_text = 'products.product.preorder' | t
+          assign button_text = 'products.product.preorder' | t
+        endif
+        unless current_variant.available
+          assign button_text = 'products.product.sold_out' | t
+        endunless
+      -%}
+  <span id="maxtext" class="flexfilmsamplecartmax" style="display:none;"></span>
+         {% assign issample = 'no' %}
+        {% assign issamplevalue = 'no' %}
+        {% assign isSameSampleInCart = 'no' %}
+        {% assign cartSampleShadeValue = '' %}
+        
+       {% capture product_handle %}{{ variant.id }},{% endcapture %}	
+         {% capture pro_handle %}{{ product.handle }},{% endcapture %}	
+     {% capture product_current_vriants %}{{ product_current_vriants }}{{ variant.id }},{% endcapture %}
+     {% if settings.p_sample_handle contains pro_handle %} 
+        {% assign issample = "yes" %}
+          {% for item in cart.items %}
+            {% if item.product.handle == product.handle %}
+            {% assign isSameSampleInCart = 'yes' %}
+              {% for option in item.options_with_values %}
+                  {% if option.name == "Shade" %}
+                    {% capture cartSampleShadeValue %}{{cartSampleShadeValue}}{{option.value}}{% endcapture %}
+                  {% endif %}
+              {% endfor %}
+            {% endif %}
+          {% endfor %}
+  
+    {% endif %}
+        {% assign cartSampleShadeValueCheck = 'no' %}
+        {% if product.handle == "panaflex™-sample-roll" %}{% assign cartSampleShadeValueCheck = 'yes' %}{% endif %}
+        <input type="hidden" name="isSample" value="{{ issample }}"/>
+        <input type="hidden" name="cartSampleShadeValue" value="{{ cartSampleShadeValue }}"/>
+        <input type="hidden" name="cartSampleShadeValueCheck" value="{{ cartSampleShadeValueCheck }}"/>
+        <input type="hidden" name="isSameSampleInCart" value="{{ isSameSampleInCart }}"/>
+        <select name="id" data-product-select class="product-single__variants no-js" id="variantselectbox" data-title="test">
+      {%- for variant in product.variants -%}
+        {%- if variant.available -%}
+          <option {% if variant == product.selected_or_first_available_variant %}
+            selected="selected"{% endif %} data-title="{% if issample == "yes" %}{{ variant.option2 }}{% endif %}"
+            value="{{ variant.id }}">
+            {{ variant.title }} - {{ variant.price | money_with_currency }}
+          </option>
+        {%- else -%}
+          <option disabled="disabled">
+            {{ variant.title }} - {{ 'products.product.sold_out' | t }}
+          </option>
+        {%- endif -%}
+      {%- endfor -%}
+    </select>
+   
+        {% render "produc-template-sales-points"  product: product, blocks: section.blocks,
+                              current_variant: current_variant %}
+      <button
+        {% if product.empty? %}type="button"{% else %}type="submit"{% endif %}
+        name="add" id="adcbtn"
+        data-add-to-cart
+        class="btn btn--full add-to-cart{% if enable_dynamic_buttons and product.selling_plan_groups == empty %} btn--secondary{% endif %}"
+        {% unless current_variant.available %} disabled="disabled"{% endunless %}>
+        <span data-add-to-cart-text data-default-text="{{ default_text }}">
+          {{ button_text }}
+        </span>
+      </button>
+  
+      {%- if enable_dynamic_buttons -%}
+        {{ form | payment_button }}
+      {%- endif -%}
+  
+    {%- if enable_dynamic_buttons -%}
+      </div>
+    {%- endif -%}
+    
+  
+  
+  {% unless product.template_suffix == 'plotters' or 'flexcut-renewal'%}
+  <div class="shopify-payment-terms product__policies">{{ form | payment_terms }}</div>
+  {% endunless %}
+    
+    <textarea data-variant-json class="hide" aria-hidden="true" aria-label="Product JSON">
+      {{ product.variants | json }}
+    </textarea>
+    {%- if product.options.size > 1 -%}
+      <textarea data-current-variant-json class="hide" aria-hidden="true" aria-label="Variant JSON">
+        {{ current_variant | json }}
+      </textarea>
+    {%- endif -%}
+  {%- endform -%}
+    {% endif %}
+    <style>
+      .msg {
+      margin: 5% 0 5% 0;
+  }
+      
+  .service-state-label {
+      font-size: 15px !important;
+      text-transform: none !important;
+      font-weight: 500 !important;
+  }
+  
+      .global-product-deactive-cart {
+      background-color: #808080;
+      pointer-events: none;
+  }
+    </style>
