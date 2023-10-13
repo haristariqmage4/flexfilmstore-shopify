@@ -182,11 +182,14 @@
                       {%- render 'product-description', id: id, product: product, is_tab: block.settings.is_tab , title:block.settings.title -%}
                     </div>
                   {%- when 'price' -%}
+                  {% if customer.id == null and product.tags contains 'global' %}
                     <div class="product-block hidden_price_block">                    
                       <span class="product__price_symbol">{{cart.currency.symbol}}</span>                    
                       <span  class="product__price_hidden"></span>
-                     </div>
-                    <div class="product-block product-block--price{% if customer.id == null %}  hide{% endif %}" {{ block.shopify_attributes }}>                      {%- assign hide_sale_price = true -%}
+                    </div>
+                    {% endif %}
+                    <div class="product-block product-block--price{% if customer.id == null and product.tags contains 'global' %}  hide{% endif %}" {{ block.shopify_attributes }}>
+                      {%- assign hide_sale_price = true -%}
                       {%- if product.compare_at_price_max > product.price -%}
                         {%- if current_variant.compare_at_price > current_variant.price -%}
                           {%- assign hide_sale_price = false -%}
@@ -258,8 +261,8 @@
                           {%- endif -%}
                         </div>
                       {%- endif -%}
-                    </div>
-                     
+                    </div>             
+              
                   {%- when 'variant_picker' -%}
                     
           
@@ -349,21 +352,21 @@
     </div>
   </div>
 </div>
-<style>
-  span.product__price_hidden::after {
-  content: "";
-  position: absolute;
-  left: 5px;
-  top: 50%;
-  background: #1e9cd2;
-  width: 36px;
-  height: 2px;
+  <style>
+    span.product__price_hidden::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    background: #1e9cd2;
+    width: 36px;
+    height: 2px;
 }
 span.product__price_hidden {
-  position: relative;
+    position: relative;
 }
 
-  span.product__price_symbol {
-  color: #1e9cd2;
+    span.product__price_symbol {
+    color: #1e9cd2;
 }
-</style>
+  </style>

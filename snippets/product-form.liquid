@@ -1,7 +1,7 @@
-{% if customer.id == null %}
+{% if customer.id == null and product.tags contains 'global' %}
   <label class="service-state-label" for="service-state">Please select state to check product eligibility and shipping options</label>
   <select id="service-state">
-    <option>--- Please select state  ---</option>
+    <option>Please select state</option>
     <option value="AZ">Arizona</option>
     <option value="AR">Arkansas</option>
     <option value="CA">California</option>
@@ -10,13 +10,13 @@
     <option value="GA">Georgia</option>
     <option value="HI">Hawaii</option>
     <option value="ID">Idaho</option>
-    <option value="LA">Louisiana</option>
+      <option value="LA">Louisiana</option>
     <option value="MS">Mississippi</option>
     <option value="NH">New Hampshire</option>
     <option value="NJ">New Jersey</option>
     <option value="NM">New Mexico</option>
     <option value="NY">New York</option>
-    <option value="OK">Oklahoma</option>
+      <option value="OK">Oklahoma</option>
     <option value="SD">South Dakota</option>
     <option value="SC">South Carolina</option>
     <option value="TN">Tennessee</option>
@@ -35,8 +35,9 @@
   <input id="global_product_states" type="hidden" value={{ result  }}>
        <div class="msg hide">
           <p> We regret to inform you that we do not currently offer our Global products in your state; however, please contact us so that we can discuss alternative options, and we are pleased to inform you that we have a range of other Flexfilm products available, including our premium PPF FlexGuard.</p>
-       </div>
-  
+            <a href="tel:+1-256-748-8468" class="btn" >Call Now</a>
+             <a href="https://flexfilmstore.com/products/flexguard" target="_blank" class="btn" >Shop FlexGuard</a>
+    </div>
   {%- form 'product', product, id: form_id, class: 'product-single__form' -%}
   <div class="product-block" data-dynamic-variants-enabled {{ block.shopify_attributes }}>
                         {%- unless product.has_only_default_variant -%}
@@ -313,35 +314,100 @@
     {%- endif -%}
   {%- endform -%}
   
-  <script>
-    var stringTags = $('#global_product_states').val();
-    var globalStates = [];
-     globalStates.push(stringTags.split(','));
-    $('#service-state ').on('change',function(){
-      let state = $('#service-state :selected').val();
-      Cookies.set("_service_state", state);
-      
-      let selectedState = Cookies.get("_service_state");
-      if(globalStates[0].includes(selectedState)){
-        $('.product-block--price').removeClass('hide');
-        $('.product-block--price').addClass('show');
-        $('.hidden_price_block').addClass('hide');
-        $('.hidden_price_block').removeClass('show');
-        $('.msg').addClass('hide'); 
-        $('#adcbtn').removeClass('global-product-deactive-cart');
-       $('#adcbtn').html('Add to cart');
+    <script>
+    var now = new Date();
+    var expires = new Date(now.getTime() + 1 * 60 * 60 * 1000); // 2 hours in milliseconds
   
-      } else{
-        $('.product-block--price').removeClass('show');
-        $('.product-block--price').addClass('hide');
-         $('.hidden_price_block').addClass('show');
-        $('.hidden_price_block').removeClass('hide');
-        $('.msg').removeClass('hide');       
-        $('#adcbtn').addClass('global-product-deactive-cart');
-         $('#adcbtn').html('Select state to add to cart');
-      }
-    });  
-  </script>
+  
+      var stringTags = $('#global_product_states').val();
+      var globalStates = [];
+       globalStates.push(stringTags.split(','));
+      $('#service-state ').on('change',function(){
+        let state = $('#service-state :selected').val();
+        //Cookies.set("_service_state", state);
+        document.cookie = "_service_state="+state+";expires=" + expires;
+        let selectedState = Cookies.get("_service_state");
+        if(globalStates[0].includes(selectedState)){
+          $('.product-block--price').removeClass('hide');
+          $('.product-block--price').addClass('show');
+          $('.hidden_price_block').addClass('hide');
+          $('.hidden_price_block').removeClass('show');
+          $('.msg').addClass('hide');      
+          $('.call-now').removeClass('show'); 
+          $('.call-now').addClass('hide');
+          $('#adcbtn').removeClass('global-product-deactive-cart');
+         $('#adcbtn').html('Add to cart');
+    
+        } else{
+          $('.product-block--price').removeClass('show');
+          $('.product-block--price').addClass('hide');
+          $('.hidden_price_block').addClass('show');
+          $('.hidden_price_block').removeClass('hide');
+          $('.msg').removeClass('hide'); 
+          $('.call-now').removeClass('hide'); 
+          $('.call-now').addClass('show');
+          $('#adcbtn').addClass('global-product-deactive-cart');
+          $('#adcbtn').html('Select state to add to cart');
+        }
+      
+      });  
+      // Get all cookies as a string
+  var allCookies = document.cookie;
+  
+  // Split the string into an array of individual cookies
+  var cookiesArray = allCookies.split(";");
+  
+  // Define the name of the cookie you want to retrieve
+  var targetCookieName = "_service_state";
+  
+  // Initialize a variable to store the value of the target cookie
+  var targetCookieValue = null;
+  
+  // Loop through the cookies to find the one with the target name
+  for (var i = 0; i < cookiesArray.length; i++) {
+    var cookie = cookiesArray[i].trim(); // Remove any leading/trailing spaces
+  
+    // Check if the cookie starts with the target name
+    if (cookie.indexOf(targetCookieName + "=") === 0) {
+      // Extract the value of the target cookie
+      targetCookieValue = cookie.substring(targetCookieName.length + 1);
+      break;
+    }
+  }
+  
+  // Now, targetCookieValue holds the value of the specified cookie
+    console.log(targetCookieValue);
+  if(targetCookieValue !== null){
+    if (globalStates[0].includes(targetCookieValue)) {
+      $('#service-state').val(targetCookieValue);
+     $('#service-state').attr('disabled', true);
+    $('.product-block--price').removeClass('hide');
+          $('.product-block--price').addClass('show');
+          $('.hidden_price_block').addClass('hide');
+          $('.hidden_price_block').removeClass('show');
+          $('.msg').addClass('hide');      
+          $('.call-now').removeClass('show'); 
+          $('.call-now').addClass('hide');
+          $('#adcbtn').removeClass('global-product-deactive-cart');
+         $('#adcbtn').html('Add to cart');
+  } else {
+          $('#service-state').val(targetCookieValue);
+     $('#service-state').attr('disabled', true);
+          $('.product-block--price').removeClass('show');
+          $('.product-block--price').addClass('hide');
+          $('.hidden_price_block').addClass('show');
+          $('.hidden_price_block').removeClass('hide');
+          $('.msg').removeClass('hide'); 
+          $('.call-now').removeClass('hide'); 
+          $('.call-now').addClass('show');
+          $('#adcbtn').addClass('global-product-deactive-cart');
+          $('#adcbtn').html('Select state to add to cart');
+  }
+  }
+  
+  
+  
+    </script>
     {% else %}
   {%- form 'product', product, id: form_id, class: 'product-single__form' -%}
   <div class="product-block" data-dynamic-variants-enabled {{ block.shopify_attributes }}>
@@ -587,7 +653,7 @@
         {% if product.empty? %}type="button"{% else %}type="submit"{% endif %}
         name="add" id="adcbtn"
         data-add-to-cart
-        class="btn--full add-to-cart{% if enable_dynamic_buttons and product.selling_plan_groups == empty %} btn--secondary{% endif %}"
+        class="btn btn--full add-to-cart{% if enable_dynamic_buttons and product.selling_plan_groups == empty %} btn--secondary{% endif %}"
         {% unless current_variant.available %} disabled="disabled"{% endunless %}>
         <span data-add-to-cart-text data-default-text="{{ default_text }}">
           {{ button_text }}
@@ -625,7 +691,7 @@
       
   .service-state-label {
       font-size: 15px !important;
-      text-transform: capitalize !important;
+      text-transform: none !important;
       font-weight: 500 !important;
   }
   
